@@ -51,26 +51,6 @@ class userAuthController extends Controller {
       { phoneNumber },
       { password: 0, refreshToken: 0, accessToken: 0 }
     );
-    // .populate([
-    //   {
-    //     path: "Products",
-    //     model: "Product",
-    //     select: {
-    //       title: 1,
-    //       slug: 1,
-    //       price: 1,
-    //       icon: 1,
-    //     },
-    //     populate: [
-    //       {
-    //         // deeper
-    //         path: "seller",
-    //         model: "Seller",
-    //         select: { name: 1, icon: 1 },
-    //       },
-    //     ],
-    //   },
-    // ]);
 
     if (!user) throw createError.NotFound("کاربری با این مشخصات یافت نشد");
 
@@ -83,7 +63,6 @@ class userAuthController extends Controller {
     user.isVerifiedPhoneNumber = true;
     await user.save();
 
-    // await setAuthCookie(res, user); // set httpOnly cookie
     await setAccessToken(res, user);
     await setRefreshToken(res, user);
     let WELLCOME_MESSAGE = `کد تایید شد، به فرانت هوکس خوش آمدید`;
@@ -248,7 +227,7 @@ class userAuthController extends Controller {
       secure: true,
       path: "/",
       domain:
-        process.env.NODE_ENV === "development" ? "localhost" : ".fronthooks.ir",
+        process.env.NODE_ENV === "development" ? "localhost" : "liara.run",
     };
     res.cookie("accessToken", null, cookieOptions);
     res.cookie("refreshToken", null, cookieOptions);
